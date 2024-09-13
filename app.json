@@ -2,10 +2,9 @@
   "expo": {
     "name": "E-TrackMo",
     "slug": "E-TrackMo",
-    "scheme": "E-TrackMo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splashScreen.png",
@@ -17,14 +16,27 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo1.png",
         "backgroundColor": "#f8f8f8"
-      }
+      },
+      "package": "com.etrackmo.ETrackMo",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router", "expo-font"]
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "50c6aa3f-3b5f-49f0-9cfc-c29645c01594"
+      }
+    }
   }
 }
