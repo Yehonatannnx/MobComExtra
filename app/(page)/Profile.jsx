@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
@@ -27,58 +34,78 @@ const Profile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        <Text style={styles.profileName}>John Doe </Text>
-        {/* Replace with dynamic name */}
-      </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.profileName}>John Doe</Text>
+          <Text style={styles.profileEmail}>johndoe@gmail.com</Text>
+          {/* Replace with dynamic name */}
+        </View>
 
-      {/* Options Section */}
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionButton}>
-          <Text style={styles.optionText}>Settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton} onPress={handleLogout}>
-          <Text style={styles.optionText}>Logout</Text>
-        </TouchableOpacity>
+        {/* Options Section */}
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity style={styles.optionButton}>
+            <Text style={styles.optionText}>Edit Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton}>
+            <Text style={styles.optionText}>Settings</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton}>
+            <Text style={styles.optionText}>Preferences</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={handleLogout}>
+            <Text style={styles.optionText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
   },
   header: {
     backgroundColor: "#3A5A40",
-    padding: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     alignItems: "center",
   },
   profileName: {
-    fontSize: 24,
+    fontSize: 18,
     color: "#ffffff",
     fontFamily: "Poppins_600SemiBold",
   },
+  profileEmail: {
+    fontSize: 14,
+    color: "#ffffff",
+    fontFamily: "Poppins_400Regular",
+  },
   optionsContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   optionButton: {
-    backgroundColor: "#3A5A40",
+    backgroundColor: "#fff",
     padding: 15,
-    width: "80%",
+    width: "100%",
     alignItems: "center",
-    marginVertical: 10,
     borderRadius: 5,
+    marginVertical: 4,
   },
   optionText: {
-    color: "#ffffff",
+    color: "#000",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
   },

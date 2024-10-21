@@ -15,7 +15,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState("eye-off");
@@ -29,28 +29,31 @@ export default function Index() {
 
   const handleLogin = async () => {
     if (emailOrUsername.length === 0 || password.length === 0) {
-      Alert.alert('Error', 'Please enter all fields');
+      Alert.alert("Error", "Please enter all fields");
       return;
     }
-  
+
     try {
-      const user = await db.getFirstAsync('SELECT * FROM users WHERE (email = ? OR username = ?) AND password = ?', [emailOrUsername, emailOrUsername, password]);
+      const user = await db.getFirstAsync(
+        "SELECT * FROM users WHERE (email = ? OR username = ?) AND password = ?",
+        [emailOrUsername, emailOrUsername, password]
+      );
       if (user) {
         // Save the user session
-        const userSession = {user_id: user.id };
-        await AsyncStorage.setItem('userSession', JSON.stringify(userSession));
-        console.log('User logged in successfully!');
+        const userSession = { user_id: user.id };
+        await AsyncStorage.setItem("userSession", JSON.stringify(userSession));
+        console.log("User logged in successfully!");
         console.log(`User ID: ${userSession.user_id}`);
-        Alert.alert('Success', 'User logged in successfully!');
+        Alert.alert("Success", "User logged in successfully!");
         router.push("/home");
       } else {
-        Alert.alert('Error', 'Invalid login credentials!');
+        Alert.alert("Error", "Invalid login credentials!");
       }
     } catch (error) {
-      console.log('Error during login: ', error);
+      console.log("Error during login: ", error);
     }
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={{ alignSelf: "flex-start", width: 150 }}>
@@ -69,11 +72,11 @@ export default function Index() {
           color="#232323"
           style={styles.icon}
         />
-        <TextInput 
-        style={styles.input} 
-        placeholder="Enter Email or Username" 
-        value={emailOrUsername}
-        onChangeText={setEmailOrUsername}
+        <TextInput
+          style={styles.input}
+          placeholder="Enter Email or Username"
+          value={emailOrUsername}
+          onChangeText={setEmailOrUsername}
         />
       </View>
 
@@ -104,10 +107,7 @@ export default function Index() {
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={handleLogin}
-      >
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
 
@@ -172,11 +172,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   signUp: {
-    fontFamily: "Poppins_700Bold",
+    fontFamily: "Poppins_600SemiBold",
     color: "#000",
     textAlign: "center",
     marginTop: 20,
-    fontWeight: "bold",
     fontSize: 15,
   },
   img: {
