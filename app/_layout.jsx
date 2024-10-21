@@ -2,13 +2,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, Stack } from "expo-router";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
-import * as SplashScreen from 'expo-splash-screen';
-import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
+import * as SplashScreen from "expo-splash-screen";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+} from "@expo-google-fonts/poppins";
 
 const initializeDatabase = async (db) => {
   try {
     await db.execAsync(
-     `PRAGMA journal_mode = WAL;
+      `PRAGMA journal_mode = WAL;
       PRAGMA foreign_keys = ON;
 
       CREATE TABLE IF NOT EXISTS users (
@@ -54,25 +60,25 @@ const initializeDatabase = async (db) => {
       );
       `
     );
-    console.log('Database initialized!');
+    console.log("Database initialized!");
   } catch (error) {
-    console.log('Error while initializing the database: ', error);
+    console.log("Error while initializing the database: ", error);
   }
 };
 
 const checkUserSession = async () => {
   try {
-    const userSession = await AsyncStorage.getItem('userSession');
-    console.log('User session:', userSession); // Log the user session
+    const userSession = await AsyncStorage.getItem("userSession");
+    console.log("User session:", userSession); // Log the user session
     if (userSession) {
       // Navigate to the home screen if a session is found
-      console.log('Session found, navigating to home.'); // Log session found
+      console.log("Session found, navigating to home."); // Log session found
       router.push("/home");
     } else {
-      console.log('No session found, staying on current screen.'); // Log no session found
+      console.log("No session found, staying on current screen."); // Log no session found
     }
   } catch (error) {
-    console.log('Error checking user session: ', error);
+    console.log("Error checking user session: ", error);
   }
 };
 
@@ -122,6 +128,7 @@ const RootLayout = () => {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(forms)" options={{ headerShown: false }} />
+        <Stack.Screen name="(page)" options={{ headerShown: false }} />
       </Stack>
     </SQLiteProvider>
   );

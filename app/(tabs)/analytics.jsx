@@ -12,6 +12,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import { useState } from "react";
 import ExpenseAnalytics from "../components/expenseAnalytics";
 import IncomeAnalytics from "../components/incomeAnalytics";
+import TransferAnalytics from "../components/transferAnalytics";
 
 const Analytics = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -47,7 +48,7 @@ const Analytics = () => {
                 setSelectedView(item.value); // Update view based on selection
               }}
             />
-              
+
             {/* Conditionally render content based on selected view */}
             <View>
               {selectedView === "expense" && (
@@ -55,9 +56,7 @@ const Analytics = () => {
               )}
               {selectedView === "income" && <IncomeAnalytics></IncomeAnalytics>}
               {selectedView === "transfer" && (
-                <Text style={styles.contentText}>
-                  This is the Transfer View content.
-                </Text>
+                <TransferAnalytics></TransferAnalytics>
               )}
             </View>
           </View>
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingBottom: 8,
   },
   contentContainer: {
     marginTop: 20,
