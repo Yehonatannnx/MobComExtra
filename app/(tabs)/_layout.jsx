@@ -39,6 +39,7 @@ const TabIcon = ({ icon, color, size, name, focused }) => {
       <Text
         style={{
           marginTop: 5,
+          fontSize: 13,
           fontFamily: focused ? "Poppins_600SemiBold" : "Poppins_400Regular",
           color: focused ? "#3A5A40" : "#666666",
         }}
