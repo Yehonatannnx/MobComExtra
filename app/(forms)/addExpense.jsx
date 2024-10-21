@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const addExpense = () => {
+const AddExpense = () => {
   const [amount, setAmount] = useState("Php ");
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState("Sep 13, 2024");
@@ -188,7 +188,7 @@ const addExpense = () => {
   );
 };
 
-export default addExpense;
+export default AddExpense;
 
 const styles = StyleSheet.create({
   dateTime: {

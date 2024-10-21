@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const addTransfer = () => {
+const AddTransfer = () => {
   const [amount, setAmount] = useState("Php ");
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState("Sep 13, 2024");
@@ -188,7 +188,7 @@ const addTransfer = () => {
   );
 };
 
-export default addTransfer;
+export default AddTransfer;
 
 const styles = StyleSheet.create({
   dateTime: {

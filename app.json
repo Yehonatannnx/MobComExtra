@@ -2,6 +2,7 @@
   "expo": {
     "name": "E-TrackMo",
     "slug": "E-TrackMo",
+    "scheme": ["etrackmo"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo1.png",
@@ -12,30 +13,27 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.etrackmo.finance"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo1.png",
         "backgroundColor": "#f8f8f8"
       },
-      "package": "com.etrackmo.ETrackMo",
-      "versionCode": 1
+      "package": "com.etrackmo.finance"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "50c6aa3f-3b5f-49f0-9cfc-c29645c01594"
+        "projectId": "f082cbc3-81ce-4a68-8ed5-81ab398cfb64"
       }
     }
   }

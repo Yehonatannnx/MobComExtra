@@ -11,11 +11,11 @@ import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const addIncome = () => {
+const AddIncome = () => {
   const [amount, setAmount] = useState("Php ");
   const [notes, setNotes] = useState("");
-  const [date, setDate] = useState("Sep 13, 2024");
-  const [time, setTime] = useState("00:00");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
@@ -188,7 +188,7 @@ const addIncome = () => {
   );
 };
 
-export default addIncome;
+export default AddIncome;
 
 const styles = StyleSheet.create({
   dateTime: {

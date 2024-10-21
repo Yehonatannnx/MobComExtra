@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image,} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
@@ -45,7 +45,7 @@ export default function Index() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null; 
+    return null;
   }
 
   return (

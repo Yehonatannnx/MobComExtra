@@ -1,36 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
-
-SplashScreen.preventAutoHideAsync();
+import { Link, router } from 'expo-router';
+import { useSQLiteContext } from 'expo-sqlite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Index() {
-  const [fontsLoaded, error] = useFonts({
-    Poppins_400Regular,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Poppins_800ExtraBold,
-  });
-
-  useEffect(() => {
-    if (error) {
-      console.error("Error loading fonts:", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    async function hideSplashScreen() {
-      if (fontsLoaded) {
-        await SplashScreen.hideAsync();
-      }
-    }
-    hideSplashScreen();
-  }, [fontsLoaded]);
-
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordVisibility, setPasswordVisibility] = useState(true);
@@ -41,9 +19,45 @@ export default function Index() {
     setRightIcon(passwordVisibility ? 'eye' : 'eye-off');
   };
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const db = useSQLiteContext();
+
+  const handleSignUp = async () => {
+    if (email.length === 0 || username.length === 0 || password.length === 0) {
+      Alert.alert('Error', 'Please enter all fields');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
+  
+    try {
+      const existingEmail = await db.getFirstAsync('SELECT * FROM users WHERE email = ?', [email]);
+      if (existingEmail) {
+        Alert.alert('Error', 'Email is already in use!');
+        return;
+      }
+  
+      const existingUsername = await db.getFirstAsync('SELECT * FROM users WHERE username = ?', [username]);
+      if (existingUsername) {
+        Alert.alert('Error', 'Username already exists!');
+        return;
+      }
+  
+      const userRegister = await db.runAsync('INSERT INTO users (email, username, password) VALUES (?, ?, ?)', [email, username, password]);
+      if (userRegister) {
+        const user = await db.getFirstAsync('SELECT * FROM users WHERE (email = ? OR username = ?)', [email, username]);
+        const userSession = {user_id: user.id };
+        await AsyncStorage.setItem('userSession', JSON.stringify(userSession));
+        console.log('Sign up successful!');
+        console.log(`User ID: ${userSession.user_id}`);
+        Alert.alert('Success', 'Sign up successful!');
+        router.push("/home");
+      }
+    } catch (error) {
+      console.log('Error during sign up: ', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -56,13 +70,23 @@ export default function Index() {
       <Text style={styles.label}>Email</Text>
       <View style={styles.inputContainer}>
         <MaterialCommunityIcons name="account" size={22} color="#232323" style={styles.icon} />
-        <TextInput style={styles.input} placeholder="Enter Email" />
+        <TextInput 
+        style={styles.input} 
+        placeholder="Enter Email" 
+        value={email}
+        onChangeText={setEmail}
+        />
       </View>
 
       <Text style={styles.label}>Username</Text>
       <View style={styles.inputContainer}>
         <MaterialCommunityIcons name="account" size={22} color="#232323" style={styles.icon} />
-        <TextInput style={styles.input} placeholder="Enter Username" />
+        <TextInput 
+        style={styles.input} 
+        placeholder="Enter Username"
+        value={username}
+        onChangeText={setUsername}
+        />
       </View>
 
       <Text style={styles.label}>Password</Text>
@@ -95,13 +119,13 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
         <Text style={styles.loginText}>Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.signInButton}>
         <Text style={styles.signUp}>
-          Already have an account? 
+          Already have an account?
           <Link href="../signin" style={styles.signInLink}> Login</Link>
         </Text>
       </TouchableOpacity>

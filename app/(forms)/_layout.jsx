@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import addIncome from "./addIncome";
-import addExpense from "./addExpense";
-import addTransfer from "./addTransfer";
+import AddIncome from "./AddIncome";
+import AddExpense from "./AddExpense";
+import AddTransfer from "./AddTransfer";
 
 const Stack = createStackNavigator();
 
@@ -10,8 +10,8 @@ const FormsLayout = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="addIncome"
-        component={addIncome}
+        name="AddIncome"
+        component={AddIncome}
         options={{
           title: "Add Income",
           headerShown: true,
@@ -27,8 +27,8 @@ const FormsLayout = () => {
         }}
       />
       <Stack.Screen
-        name="addExpense"
-        component={addExpense}
+        name="AddExpense"
+        component={AddExpense}
         options={{
           title: "Add Expense",
           headerShown: true,
@@ -44,8 +44,8 @@ const FormsLayout = () => {
         }}
       />
       <Stack.Screen
-        name="addTransfer"
-        component={addTransfer}
+        name="AddTransfer"
+        component={AddTransfer}
         options={{
           title: "Add Transfer",
           headerShown: true,
