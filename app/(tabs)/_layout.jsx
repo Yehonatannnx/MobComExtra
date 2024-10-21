@@ -1,13 +1,9 @@
-import { StyleSheet, View, Text, Alert, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { router, Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Drawer = createDrawerNavigator();
-
-const headerOptions = {
+const headerOptions = (router) => ({
   headerStyle: {
     backgroundColor: "#3A5A40",
   },
@@ -16,7 +12,25 @@ const headerOptions = {
     fontFamily: "Poppins_700Bold",
   },
   headerTitleAlign: "center",
-};
+  headerLeft: () => (
+    <TouchableOpacity onPress={() => router.push("/Profile")}>
+      <MaterialCommunityIcons
+        name="account"
+        size={24}
+        color="#fff"
+        style={{ marginLeft: 16 }}
+      />
+    </TouchableOpacity>
+  ),
+  headerRight: () => (
+    <MaterialCommunityIcons
+      name="magnify"
+      size={24}
+      color="#fff"
+      style={{ marginRight: 16 }}
+    />
+  ),
+});
 
 const TabIcon = ({ icon, color, size, name, focused }) => {
   return (
@@ -35,39 +49,9 @@ const TabIcon = ({ icon, color, size, name, focused }) => {
   );
 };
 
-const LogoutScreen = ({ navigation }) => {
-  const handleLogout = () => {
-    Alert.alert("Logout", "Are you sure you want to log out?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Logout",
-        onPress: async () => {
-            try {
-                await AsyncStorage.removeItem('userSession');
-                console.log('User logged out successfully!');
-                router.push("/signin"); // Navigate back to the login screen
-                Alert.alert('Success', 'Logged out successfully!')
-            } catch (error) {
-              console.log('Error during logout: ', error);
-            }
-        },
-      },
-    ]);
-  };
+const RootLayout = () => {
+  const router = useRouter(); // Get the router instance
 
-  return (
-    <View style={styles.logoutContainer}>
-      <TouchableOpacity onPress={handleLogout}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const HomeScreen = () => {
   return (
     <Tabs
       screenOptions={{
@@ -93,12 +77,12 @@ const HomeScreen = () => {
           key={screen.name}
           name={screen.name}
           options={{
-            title: screen.title,
-            headerShown: false,
+            title: "E-Track Mo",
+            headerShown: true,
             tabBarIcon: (props) => (
               <TabIcon icon={screen.icon} {...props} name={screen.title} />
             ),
-            ...headerOptions,
+            ...headerOptions(router), // Pass the router to headerOptions
           }}
         />
       ))}
@@ -106,55 +90,11 @@ const HomeScreen = () => {
   );
 };
 
-const RootLayout = () => {
-  return (
-    <Drawer.Navigator
-      screenOptions={{
-        drawerStyle: {
-          backgroundColor: "#ffffff",
-          width: 240,
-        },
-        headerStyle: {
-          backgroundColor: "#3A5A40",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontFamily: "Poppins_700Bold",
-          fontSize: 20,
-        },
-        headerTitleAlign: "center",
-        headerRight: () => (
-          <MaterialCommunityIcons
-            name="magnify"
-            size={24}
-            color="#fff"
-            style={{ marginRight: 16 }}
-          />
-        ),
-      }}
-    >
-      <Drawer.Screen name="E-Track Mo" component={HomeScreen} />
-
-      <Drawer.Screen name="Logout" component={LogoutScreen} />
-    </Drawer.Navigator>
-  );
-};
+export default RootLayout;
 
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
   },
-  logoutContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logoutText: {
-    fontSize: 24,
-    color: "#3A5A40",
-    fontFamily: "Poppins_600SemiBold",
-  },
 });
-
-export default RootLayout;
